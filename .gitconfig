@@ -1,0 +1,29 @@
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[user]
+	name = yukihirop
+	email = te108186@gmail.com
+[alias]
+	co = checkout
+[core]
+	editor = subl -w
+	excludesfile = /Users/fukudayukihiro/.gitignore_global
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[color]
+	ui = auto
+[diff]
+	tool = diffmerge
+[difftool]
+	prompt = false
+[difftool "diffmerge"]
+	path = /Applications/DiffMerge.app/Contents/Resources/diffmerge.sh
+[merge]
+    tool = diffmerge
+[mergetool "diffmerge"]
+    trustExitCode = true
+    path = /Applications/DiffMerge.app/Contents/Resources/diffmerge.sh
