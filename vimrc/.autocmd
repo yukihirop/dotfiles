@@ -1,0 +1,6 @@
+"
+" autocmdの設定
+"
+
+" grep検索の実行後にQuickFix Listを表示する
+autocmd QuickFixCmdPost *grep* cwindow
