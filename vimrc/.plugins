@@ -58,7 +58,7 @@ call dein#add('vim-scripts/AnsiEsc.vim')
 call dein#add('vim-scripts/vim-auto-save')
 
 " 行末の半角スペースの可視化
-call dein#add('bronson/vim-trailing-whitespace')
+"call dein#add('bronson/vim-trailing-whitespace')
 
 " less用のsyntaxハイライト
 call dein#add('KohPoll/vim-less')
@@ -244,7 +244,7 @@ let g:auto_save = 1
 
 " 'bronson/vim-trailing-whitespace'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd BufWritePre * :FixWhitespace
+"autocmd BufWritePre * :FixWhitespace
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'KohPoll/vim-less'
