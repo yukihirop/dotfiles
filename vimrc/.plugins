@@ -20,8 +20,11 @@ execute 'set runtimepath^=' . s:dein_repo_dir
 call dein#begin(s:dein_dir)
 
 
-" ファイルオープンを便利に
-call dein#add('Shougo/unite.vim')
+" ctagsの生成を自動化
+call dein#add('soramugi/auto-ctags.vim')
+
+" jkの移動を早くする
+call dein#add('rhysd/accelerated-jk')
 
 " Unite.vimで最近使っていたファイルを表示できるようにする
 call dein#add('Shougo/neomru.vim')
@@ -31,7 +34,7 @@ call dein#add('scrooloose/nerdtree')
 call dein#add('jistr/vim-nerdtree-tabs')
 
 " nedtreeの横にgitのステータスを表示
-call dein#add('nerdtree-git-plugin')
+call dein#add('Xuyuanp/nerdtree-git-plugin')
 
 " Gitを便利に使う
 call dein#add('tpope/vim-fugitive')
@@ -132,6 +135,14 @@ filetype plugin indent on
 " Pluginの設定
 "
 
+" 'soramugi/auto-ctags.vim'
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:auto_ctags = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" 'rhysd/accelerated-jk'
+nmap j <Plug>(accelerated_jk_gj)
+nmap k <Plug>(accelerated_jk_gk)
 
 " 'Shougo/unite.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -275,13 +286,48 @@ let g:gitgutter_map_keys = 0
 
 " 'vim-airline/vim-airline'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set encoding=utf-8
+"let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#show_buffers = 0
+"let g:airline#extensions#tabline#show_close_button = 0
+"let g:airline#extensions#tabline#show_splits = 0
+"let g:airline#extensions#tabline#show_tab_type = 0
+"----------------------------------------------------------
+" フォントの設定
+" 参考)https://github.com/pixyzehn/dotfiles/blob/master/.vimrc
+set guifont=Sauce\ Code\ Powerline\Regular-Powerline:h14
+let g:Powerline_symbols = 'fancy'
+set t_Co=256
+" 参考 https://github.com/vim-airline/vim-airline/blob/master/doc/airline.txt
+
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" これがないとairline_symbols.hogeで設定する奴が設定できなくなる
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.maxlinenr = '㏑'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'Yggdroot/indentLine'
 

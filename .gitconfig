@@ -27,3 +27,5 @@
 [mergetool "diffmerge"]
     trustExitCode = true
     path = /Applications/DiffMerge.app/Contents/Resources/diffmerge.sh
+[ghq]
+  root = ~/src
