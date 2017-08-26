@@ -19,6 +19,8 @@ execute 'set runtimepath^=' . s:dein_repo_dir
 
 call dein#begin(s:dein_dir)
 
+" neocompleteの代わり
+call dein#add('Shougo/deplete.nvim')
 
 " ctagsの生成を自動化
 call dein#add('soramugi/auto-ctags.vim')
@@ -97,7 +99,7 @@ call dein#add('tyru/open-browser.vim')
 call dein#add('edkolev/tmuxline.vim')
 
 " 自動補完プラグイン
-call dein#add('Shougo/neocomplete.vim',     { 'on_i': 1 })
+"call dein#add('Shougo/neocomplete.vim',     { 'on_i': 1 })
 
 " スニペット機能を提供します。
 call dein#add('Shougo/neosnippet.vim',      { 'on_i': 1 })
@@ -135,9 +137,14 @@ filetype plugin indent on
 " Pluginの設定
 "
 
+" 'Shougo/deplete.nvim'
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:deplete#enable_at_startup = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " 'soramugi/auto-ctags.vim'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:auto_ctags = 1
+" let g:auto_ctags = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'rhysd/accelerated-jk'
@@ -357,7 +364,7 @@ map <Leader>b <Plug>(openbrowser-smart-search)
 
 " 'Shougo/neocomplete.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:neocomplete#enable_at_startup = 1
+" let g:neocomplete#enable_at_startup = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'Shougo/neosnippet.vim'

@@ -48,3 +48,4 @@ nnoremap <silent><C-e> :NERDTreeTabsToggle<CR>
 " [参考] http://longtime-engineer.hatenadiary.jp/entry/2017/07/30/122106
 inoremap <C-h> <C-[>ha
 inoremap <C-l> <C-[>la
+inoremap <C-k> <C-[>ja
