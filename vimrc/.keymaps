@@ -44,8 +44,23 @@ noremap <Right> <Nop>
 "NEDTreeの設定
 nnoremap <silent><C-e> :NERDTreeTabsToggle<CR>
 
-" 挿入モードでhlキーで移動する
+" 挿入モードでhjklキーで移動する
 " [参考] http://longtime-engineer.hatenadiary.jp/entry/2017/07/30/122106
 inoremap <C-h> <C-[>ha
 inoremap <C-l> <C-[>la
-inoremap <C-k> <C-[>ja
+inoremap <C-k> <C-[>ka
+inoremap <C-j> <C-[>ja
+
+" http://blog-sk.com/myrobo/vim/neovim-settings/
+" nvimのターミナルモードのマッピング
+if has('nvim')
+  " 新しいタブでターミナルを起動
+  nnoremap @t :tabe<CR>:terminal<CR>
+  " Ctrl + q でターミナルを終了
+  tnoremap <ESC><ESC> <C-\><C-n>
+  " ターミナルモードでのタブ移動
+  tnoremap <C-l> <C-n>gt
+  tnoremap <C-h> <C-n>gT
+
+  " ターミナルもーどにもどるのはiかaで戻れる
+endif
