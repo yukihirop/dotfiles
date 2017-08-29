@@ -5,3 +5,9 @@
 export ZSH=$HOME/dotfiles/oh-my-zsh
 
 source $HOME/dotfiles/.zshrc.mine  #自分の.zshrcを有効にする
+
+# === cool-peco init ===
+FPATH="$FPATH:/Users/fukudayukihiro/dotfiles/cool-peco"
+autoload -Uz cool-peco
+cool-peco
+# ======================

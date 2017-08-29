@@ -148,3 +148,14 @@ fi
 if [ -f /Users/fukudayukihiro/google-cloud-sdk/completion.zsh.inc ]; then
   source '/Users/fukudayukihiro/google-cloud-sdk/completion.zsh.inc'
 fi
+
+  
+bindkey '^r' cool-peco-history # ctrl+r
+bindkey '^h' cool-peco-ssh
+bindkey '^p' cool-peco-ps
+
+alias ff=cool-peco-filename-search
+alias gbb=cool-peco-git-checkout
+alias gll=cool-peco-git-log
+alias ta=cool-peco-tmux-session
+alias cg=cool-peco-ghq
