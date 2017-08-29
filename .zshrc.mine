@@ -107,15 +107,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# === cool-peco init ===
-FPATH="$FPATH:/Users/fukudayukihiro/cool-peco"
-autoload -Uz cool-peco
-cool-peco
-# ======================
-
-# [参考]http://qiita.com/htkymtks/items/bd756f30467176082df0
-# z
-. `brew --prefix`/etc/profile.d/z.sh
 
 #neovimのエイリアス
 alias vim=nvim
@@ -159,3 +150,6 @@ alias gbb=cool-peco-git-checkout
 alias gll=cool-peco-git-log
 alias ta=cool-peco-tmux-session
 alias cg=cool-peco-ghq
+
+# zの準備
+. $HOME/dotfiles/z/z.sh

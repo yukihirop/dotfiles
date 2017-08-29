@@ -30,7 +30,6 @@ sh ./install.sh
 echo 'export ZSH=$HOME/dotfiles/oh-my-zsh' >> ~/.zshrc
 echo 'source $HOME/dotfiles/.zshrc.mine' >> ~/.zshrc
 
-
 cat << END
 
 
