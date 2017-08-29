@@ -26,6 +26,11 @@ done
 cd cool-peco
 sh ./install.sh
 
+#.zshrパスの設定
+echo 'export ZSH=$HOME/dotfiles/oh-my-zsh' >> ~/.zshrc
+echo 'source $HOME/dotfiles/.zshrc.mine' >> ~/.zshrc
+
+
 cat << END
 
 
