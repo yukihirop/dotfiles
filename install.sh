@@ -10,25 +10,26 @@ cd $THIS_DIR
 git submodule init
 git submodule update
 
+# cool-pecoの準備
+cd cool-peco
+sh ./install.sh
+
+#.zshrパスの設定
+echo 'export ZSH=$HOME/dotfiles/oh-my-zsh' >> $HOME/.zshrc
+echo 'source $HOME/dotfiles/.zshrc.mine' >> $HOME/.zshrc
+
 echo "start setup..."
 for f in .??*; do
     [ "$f" = ".git" ] && continue
     [ "$f" = ".gitconfig.local.template" ] && continue
     [ "$f" = ".require_oh-my-zsh" ] && continue
     [ "$f" = ".gitmodules" ] && continue
+    [ "$f" = ".zshrc" ] && continue
 
     ln -snfv ~/dotfiles/"$f" ~/
 done
 
 [ -e ~/.gitconfig.local ] || cp ~/dotfiles/.gitconfig.local.template ~/.gitconfig.local
-
-# cool-pecoの準備
-cd cool-peco
-sh ./install.sh
-
-#.zshrパスの設定
-echo 'export ZSH=$HOME/dotfiles/oh-my-zsh' >> ~/.zshrc
-echo 'source $HOME/dotfiles/.zshrc.mine' >> ~/.zshrc
 
 cat << END
 
