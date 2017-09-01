@@ -17,3 +17,6 @@ source ~/dotfiles/vimrc/.keymaps
 
 "自動コマンドの設定
 source ~/dotfiles/vimrc/.autocmd
+
+"参考)http://qiita.com/makerbox/items/9ac6be611f65785669ad
+let g:python3_host_prog = $PYENV_ROOT . '/shims/python3'

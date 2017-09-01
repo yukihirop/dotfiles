@@ -1,1 +1,1 @@
-/Users/yfukuda/.vimrc
+/Users/fukudayukihiro/.vimrc

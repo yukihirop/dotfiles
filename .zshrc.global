@@ -18,15 +18,6 @@ alias python=$HOME/.pyenv/shims/python
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
-# Initialization for FDK command line tools.Thu Aug 24 02:51:53 2017
-#FDK_EXE="/Users/fukudayukihiro/bin/FDK/Tools/osx"
-#PATH=${PATH}:"/Users/fukudayukihiro/bin/FDK/Tools/osx"
-#export PATH
-#export FDK_EXE
-
-# Path to your oh-my-zsh installation.
-#export ZSH=/Users/fukudayukihiro/.oh-my-zsh
-
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -107,12 +98,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
-#neovimのエイリアス
-#alias vim=nvim
-#alias vi=nvim
-
-
 #参考 http://qiita.com/yuku_t/items/78107016af9eb78d5804
 # bundle cd [gem]
 _orig_bundle=$(which bundle)
@@ -129,16 +114,6 @@ function bundle() {
         $_orig_bundle $*
     fi
 }
-
-##GCS
-## The next line updates PATH for the Google Cloud SDK.
-#if [ -f /Users/fukudayukihiro/google-cloud-sdk/path.zsh.inc ]; then
-#  source '/Users/fukudayukihiro/google-cloud-sdk/path.zsh.inc'
-#fi
-# The next line enables shell command completion for gcloud.
-#if [ -f /Users/fukudayukihiro/google-cloud-sdk/completion.zsh.inc ]; then
-#  source '/Users/fukudayukihiro/google-cloud-sdk/completion.zsh.inc'
-#fi
 
 function peco-z-search
 {
@@ -158,7 +133,12 @@ function peco-z-search
 zle -N peco-z-search
 bindkey '^f' peco-z-search
 
-  
+# === cool-peco init ===
+FPATH="$FPATH:$HOME/dotfiles/cool-peco"
+autoload -Uz cool-peco
+cool-peco
+# ======================
+
 bindkey '^r' cool-peco-history # ctrl+r
 bindkey '^h' cool-peco-ssh
 bindkey '^p' cool-peco-ps
