@@ -1,0 +1,10 @@
+.DS_Store
+.idea/
+.envrc
+*.rdb
+.ruby-version
+/vendor/bundle
+docker-compose.dev.yml
+worktrees/
+.rubocop.dev.yml
+.vim/dein/
