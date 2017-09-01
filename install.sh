@@ -29,6 +29,9 @@ for f in .??*; do
     ln -snfv ~/dotfiles/"$f" ~/
 done
 
+# .vim/以下にシンボリックリンクをはる
+ln -snfv ~/dotfiles/.vim ~/
+
 [ -e ~/.gitconfig.local ] || cp ~/dotfiles/.gitconfig.local.template ~/.gitconfig.local
 
 cat << END
