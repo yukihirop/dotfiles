@@ -47,9 +47,6 @@ set smartcase
 " 検索結果をハイライト表示する
 set hlsearch
 
-" 暗い背景色に合わせた配色にする
-set background=dark
-
 " タブ入力を複数の空白入力に置き換える
 set expandtab
 
@@ -96,13 +93,24 @@ set history=200
 " backspaceキーを使えるように
 set backspace=indent,eol,start
 
-" シンタックスon
-syntax on
-colorscheme molokai
-set t_Co=256
-
 " 行番号の色
 highlight LineNr ctermfg=darkyellow
 
 " filetype
 filetype on
+
+" カラースキーム
+let scheme = 'molokai'
+augroup guicolorscheme
+  autocmd!
+  execute 'autocmd GUIEnter * colorscheme' scheme
+augroup END
+execute 'colorscheme' scheme
+set t_Co=256
+
+" 暗い背景色に合わせた配色にする
+set background=dark
+
+" シンタックスon
+syntax on
+

@@ -317,10 +317,10 @@ nnoremap <C-]> g<C-]>
 " 'joshdick/onedark.vim'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " one darkを有効にするために必須
-let g:onedark_termcolors=16
-let g:airline_theme='onedark'
+" let g:onedark_termcolors=16
+" let g:airline_theme='onedark'
 " カラースキーマを宣言する
-colorscheme onedark
+" colorscheme onedark
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'airblade/vim-gitgutter'
