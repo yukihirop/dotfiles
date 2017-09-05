@@ -19,6 +19,12 @@ execute 'set runtimepath^=' . s:dein_repo_dir
 
 call dein#begin(s:dein_dir)
 
+
+" markdown関係
+call dein#add('plasticboy/vim-markdown')
+call dein#add('kannokanno/previm')
+call dein#add('tyru/open-browser.vim', { 'rev': '46-support-latest-open-browser' })
+
 " ファイル検索
 call dein#add('ctrlpvim/ctrlp.vim')
 
@@ -89,17 +95,11 @@ call dein#add('vim-airline/vim-airline')
 " インデントの深さを視覚的にわかりやすくする
 call dein#add('Yggdroot/indentLine')
 
-" プロジェクト内のファイルやバッファ、履歴から検索する事ができる
-call dein#add('ctrlpvim/ctrlp.vim')
-
 " ソースコードを実行し、その結果をVimで表示することが出来る
 call dein#add('thinca/vim-quickrun')
 
 " ドキュメントコメントの追加・削除を簡単に行えるようにする
 call dein#add('tyru/caw.vim')
-
-" カーソル下URLをブラウザで開いたり、単語を検索したりすることが出来る
-call dein#add('tyru/open-browser.vim')
 
 " vim-airlineの配色を元にtmuxのカラースキーマを生成
 call dein#add('edkolev/tmuxline.vim')
@@ -144,6 +144,16 @@ filetype plugin indent on
 "
 
 
+" markdown関係
+" 'plasticboy/vim-markdown'
+" 'kannokanno/previm'
+" 'tyru/open-browser.vim'
+" 参考) http://qiita.com/uedatakeshi/items/31761b87ba8ecbaf2c1e
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufRead,BufNewFile *.md set filetype=markdown
+let g:previm_open_cmd = 'open -a Google\ Chrome'
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " 'ctrlpvim/ctrlp.vim'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 参考) http://qiita.com/oahiroaki/items/d71337fb9d28303a54a8
@@ -154,6 +164,9 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_open_new_file = 'r'
 let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:18'
+
+"参考)http://kannokanno.hatenablog.com/entry/2013/08/04/111014
+let g:ctrlp_user_command = ['.git', 'cd %s && find . -type f | grep -v .git']
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'kassio/neoterm'
@@ -361,10 +374,7 @@ let g:airline_symbols.readonly = '⭤'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'Yggdroot/indentLine'
-
-" 'ctrlpvim/ctrlp.vim'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>f :CtrlP<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'thinca/vim-quickrun'
@@ -374,11 +384,6 @@ nnoremap <Leader>f :CtrlP<CR>
 " 'tyru/caw.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <Leader>/ <Plug>(caw:zeropos:toggle)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" 'tyru/open-browser.vim'
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <Leader>b <Plug>(openbrowser-smart-search)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'edkolev/tmuxline.vim'
