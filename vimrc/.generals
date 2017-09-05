@@ -98,6 +98,8 @@ set backspace=indent,eol,start
 
 " シンタックスon
 syntax on
+colorscheme molokai
+set t_Co=256
 
 " 行番号の色
 highlight LineNr ctermfg=darkyellow
