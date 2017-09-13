@@ -152,5 +152,37 @@ alias cg=cool-peco-ghq
 # zの準備
 . $HOME/dotfiles/z/z.sh
 
-# # pecoでgit checkout
+# pecoでgit checkout
 alias gc='git checkout $(git branch | peco)'
+
+# pecoでgit reset
+funciton peco-git-branch-d() {
+  local res
+  local branch=$(git branch | peco | tr -d ' ')
+  if [ -n "$branch" ]; then
+    res="git branch -D '${branch}'"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+
+alias gbd=peco-git-branch-d
+
+# pecoでgit grep
+function peco-git-grep() {
+  local res
+  local file=$(git grep -n $1 | peco | awk -F: '{print $1}')
+  if [ -n "$file" ]; then
+    res="$EDITOR $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+
+alias gg=peco-git-grep
+
+
+
+
+
+
