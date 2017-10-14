@@ -35,7 +35,7 @@ call dein#add('kassio/neoterm')
 call dein#add('Shougo/deoplete.nvim')
 
 " ctagsの生成を自動化
-call dein#add('soramugi/auto-ctags.vim')
+" call dein#add('soramugi/auto-ctags.vim')
 
 " jkの移動を早くする
 call dein#add('rhysd/accelerated-jk')
@@ -81,7 +81,7 @@ call dein#add('vim-scripts/AnsiEsc.vim')
 call dein#add('KohPoll/vim-less')
 
 " tags
-call dein#add('szw/vim-tags')
+" call dein#add('szw/vim-tags')
 
 " atomのonedarkのカラースキーマを使うために
 call dein#add('joshdick/onedark.vim')
@@ -306,12 +306,12 @@ let g:indent_guides_enable_on_vim_startup = 1
 
 " 'szw/vim-tags'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:vim_tags_project_tags_command = "/usr/local/bin/ctags -f .tags -R . 2>/dev/null"
-let g:vim_tags_gems_tags_command = "/usr/local/bin/ctags -R -f .Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
-set tags+=.tags
-set tags+=.Gemfile.lock.tags
+" let g:vim_tags_project_tags_command = "/usr/local/bin/ctags -f .tags -R . 2>/dev/null"
+" let g:vim_tags_gems_tags_command = "/usr/local/bin/ctags -R -f .Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
+" set tags+=.tags
+" set tags+=.Gemfile.lock.tags
 " tagsジャンプの時に複数ある時は一覧表示
-nnoremap <C-]> g<C-]>
+" nnoremap <C-]> g<C-]>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 'joshdick/onedark.vim'

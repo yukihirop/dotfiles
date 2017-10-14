@@ -8,3 +8,4 @@ docker-compose.dev.yml
 worktrees/
 .rubocop.dev.yml
 .vim/dein/
+/log
