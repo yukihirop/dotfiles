@@ -168,6 +168,8 @@ funciton peco-git-branch-d() {
 
 alias gbd=peco-git-branch-d
 
+export EDITOR=mine
+
 # pecoでgit grep
 function peco-git-grep() {
   local res
@@ -181,8 +183,84 @@ function peco-git-grep() {
 
 alias gg=peco-git-grep
 
+# pecoでbundle exec spec
+function peco-spec(){
+  local res
+  local file=$(git diff --name-only master | grep _spec | peco)
+  if [ -n "$file" ]; then
+    res="DISABLE_COVERAGE=true bin/rspec $file"
+  fi
 
+  _cool-peco-insert-command-line $res
+}
+alias spec=peco-spec
 
+# pecoでgit diff --name-only master
+function peco-git-diff-name-only() {
+  local res
+  local file=$(git diff --name-only ${1:-$GIT_DIFF_BRANCH} | peco)
+  if [ -n "$file" ]; then
+	res="$EDITOR $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias gd=peco-git-diff-name-only
+
+# pecoでfind
+function peco-find-grep() {
+  local res
+  local base=$(find -type f | xargs grep -n $1 | peco)
+  local file=$(echo $base | awk -F: '{print $1}')
+  local file_index=$(echo $base | awk -F: '{print $2}')
+  if [ -n "$file" ]; then
+    res="$EDITOR $file:$file_index"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias ff=peco-find-grep
+
+# pecoでgit-diff-find
+function peco-git-diff-find() {
+  local res
+  local base=$(find $(git diff --name-only master) -type f | xargs grep -n1 $1 | peco)
+  local file=$(echo $base | awk -F: '{print $1}')
+  local file_index=$(echo $base | awk -F: '{print $2}')
+  if [ -n "$file" ]; then
+    res="$EDITOR $file:$file_index"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+
+alias ggd=peco-git-diff-find
+
+# pecoでspecファイルをsublで開く
+function peco-subl-spec(){
+  local res
+  local file=$(git diff --name-only master | grep _spec | peco)
+  if [ -n "$file" ]; then
+    res="$EDITOR $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias sspec=peco-subl-spec
+
+# pecoでcd
+function peco-cd {
+  local res
+  local file=$(git grep -n $1 | peco | awk -F: '{print $1}')
+  if [ -n "$file" ]; then
+    res="pushd $(cd $(dirname $file);pwd)"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias pcd=peco-cd
+
+alias be='bundle exec'
 
 
 

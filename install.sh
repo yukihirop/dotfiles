@@ -17,7 +17,7 @@ for f in .??*; do
     [ "$f" = ".require_oh-my-zsh" ] && continue
     [ "$f" = ".gitmodules" ] && continue
 
-    ln --symbolic --no-dereference --force --verbose ~/dotfiles/"$f" ~/
+    ln -snfv ~/dotfiles/"$f" ~/
 done
 
 # .vim/以下にシンボリックリンクをはる
