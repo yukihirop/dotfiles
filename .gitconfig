@@ -29,3 +29,8 @@
     path = /Applications/DiffMerge.app/Contents/Resources/diffmerge.sh
 [ghq]
   root = ~/src
+[browse-remote "github.com"]
+    top = https://{host}/{path}
+    ref = https://{host}/{path}/pull/{short_ref}
+    rev = https://{host}/{path}/commit/{commit}
+    file = "https://{host}/{path}/blob/{short_rev}/{file}{line && \"#L%d\" % line}"

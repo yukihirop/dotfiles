@@ -2,7 +2,7 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 #goのパス
-export GOPATH=$HOME
+export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
 # makeotfのパス
@@ -17,6 +17,10 @@ alias python=$HOME/.pyenv/shims/python3
 #rbenvの設定
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+#goenvの設定
+export PATH="$HOME/.goenv/bin:$PATH"
+eval "$(goenv init -)"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -168,6 +172,8 @@ funciton peco-git-branch-d() {
 
 alias gbd=peco-git-branch-d
 
+export EDITOR=mine
+
 # pecoでgit grep
 function peco-git-grep() {
   local res
@@ -181,8 +187,107 @@ function peco-git-grep() {
 
 alias gg=peco-git-grep
 
+# pecoでbundle exec spec
+function peco-spec(){
+  # オプションを渡せるようにした
+  # 参考
+  # https://qiita.com/b4b4r07/items/dcd6be0bb9c9185475bb
+  for OPT in "$@"
+  do
+    case $OPT in
+      '-a' )
+          EXECUTE_ALL=1
+          ;;
+    esac
+    shift
+  done
 
+  local res
+  local branch=${1:-master}
+  local spec_target_files=$(git diff --name-only origin/$branch | grep _spec)
 
+  if [ "$EXECUTE_ALL" ]; then
+    echo "=========================RSpec========================="
+    echo $spec_target_files | xargs -n 1 echo
+    export DISABLE_COVERAGE=1
+    echo $spec_target_files | xargs --no-run-if-empty bundle exec rspec --format progress
+  else
+    local file=$(git diff --name-only origin/$branch | grep _spec | peco)
+    if [ -n "$file" ]; then
+      res="DISABLE_COVERAGE=true bin/rspec $file"
+    fi
+    _cool-peco-insert-command-line $res
+  fi
+}
+alias spec=peco-spec
 
+# pecoでgit diff --name-only master
+function peco-git-diff-name-only() {
+  local res
+  local file=$(git diff --name-only origin/${1:-$GIT_DIFF_BRANCH} | peco)
+  if [ -n "$file" ]; then
+	res="$EDITOR $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias gd=peco-git-diff-name-only
+
+# pecoでfind
+function peco-find-grep() {
+  local res
+  local base=$(find -type f | xargs grep -n $1 | peco)
+  local file=$(echo $base | awk -F: '{print $1}')
+  local file_index=$(echo $base | awk -F: '{print $2}')
+  if [ -n "$file" ]; then
+    res="$EDITOR $file:$file_index"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias ff=peco-find-grep
+
+# pecoでgit-diff-find
+function peco-git-diff-find() {
+  local res
+  local base=$(find $(git diff --name-only master) -type f | xargs grep -n1 $1 | peco)
+  local file=$(echo $base | awk -F: '{print $1}')
+  local file_index=$(echo $base | awk -F: '{print $2}')
+  if [ -n "$file" ]; then
+    res="$EDITOR $file:$file_index"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+
+alias ggd=peco-git-diff-find
+
+# pecoでspecファイルをsublで開く
+function peco-subl-spec(){
+  local res
+  local file=$(git diff --name-only master | grep _spec | peco)
+  if [ -n "$file" ]; then
+    res="$EDITOR $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias sspec=peco-subl-spec
+
+# pecoでcd
+function peco-cd {
+  local res
+  local file=$(git grep -n $1 | peco | awk -F: '{print $1}')
+  if [ -n "$file" ]; then
+    res="pushd $(cd $(dirname $file);pwd)"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias pcd=peco-cd
+
+alias be='bundle exec'
+
+alias current-branch='git rev-parse --abbrev-ref HEAD'
 
 
