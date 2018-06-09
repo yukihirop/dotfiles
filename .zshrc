@@ -15,3 +15,6 @@ source $HOME/dotfiles/.zshrc.global
 # local設定を有効にする
 source $HOME/.zshrc.local
 
+
+# added by travis gem
+[ -f /Users/fukudayukihiro/.travis/travis.sh ] && source /Users/fukudayukihiro/.travis/travis.sh

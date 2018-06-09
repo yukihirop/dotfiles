@@ -172,7 +172,7 @@ funciton peco-git-branch-d() {
 
 alias gbd=peco-git-branch-d
 
-export EDITOR=mine
+export EDITOR=subl
 
 # pecoでgit grep
 function peco-git-grep() {
@@ -211,6 +211,7 @@ function peco-spec(){
     echo $spec_target_files | xargs -n 1 echo
     export DISABLE_COVERAGE=1
     echo $spec_target_files | xargs --no-run-if-empty bundle exec rspec --format progress
+    unset $EXECUTE_ALL
   else
     local file=$(git diff --name-only origin/$branch | grep _spec | peco)
     if [ -n "$file" ]; then
@@ -220,6 +221,42 @@ function peco-spec(){
   fi
 }
 alias spec=peco-spec
+
+
+# pecoでnpm run test
+function peco-run-test(){
+  # オプションを渡せるようにした
+  # 参考
+  # https://qiita.com/b4b4r07/items/dcd6be0bb9c9185475bb
+  for OPT in "$@"
+  do
+    case $OPT in
+      '-a' )
+          EXECUTE_ALL=1
+          ;;
+    esac
+    shift
+  done
+
+  local res
+  local branch=${1:-master}
+  local spec_target_files=$(git diff --name-only origin/$branch | grep spec)
+
+  if [ "$EXECUTE_ALL" ]; then
+    echo "=========================RSpec========================="
+    echo $spec_target_files | xargs -n 1 echo
+    export DISABLE_COVERAGE=1
+    echo $spec_target_files | xargs --no-run-if-empty npm run test
+    unset $EXECUTE_ALL
+  else
+    local file=$(git diff --name-only origin/$branch | grep spec | peco)
+    if [ -n "$file" ]; then
+      res="npm run test $file"
+    fi
+    _cool-peco-insert-command-line $res
+  fi
+}
+alias rtest=peco-run-test
 
 # pecoでgit diff --name-only master
 function peco-git-diff-name-only() {
