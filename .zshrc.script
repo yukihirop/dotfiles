@@ -1,0 +1,224 @@
+#参考 http://qiita.com/yuku_t/items/78107016af9eb78d5804
+# bundle cd [gem]
+_orig_bundle=$(which bundle)
+function bundle() {
+    if [ "$1" = "cd" ]; then
+        local gem
+        if [ "$2" ]; then
+            gem=$2
+        else
+            gem=$($_orig_bundle list | awk '{ print $2 }' | peco)
+        fi
+        pushd $($_orig_bundle show $gem)
+    else
+        $_orig_bundle $*
+    fi
+}
+
+function peco-z-search
+{
+  which peco z > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Please install peco and z"
+    return 1
+  fi
+  local res=$(z | sort -rn | cut -c 12- | peco)
+  if [ -n "$res" ]; then
+    BUFFER+="cd $res"
+    zle accept-line
+  else
+    return 1
+  fi
+}
+zle -N peco-z-search
+bindkey '^f' peco-z-search
+
+# === cool-peco init ===
+FPATH="$FPATH:$HOME/dotfiles/cool-peco"
+autoload -Uz cool-peco
+cool-peco
+# ======================
+
+bindkey '^r' cool-peco-history # ctrl+r
+bindkey '^h' cool-peco-ssh
+bindkey '^p' cool-peco-ps
+
+alias ff=cool-peco-filename-search
+alias gbb=cool-peco-git-checkout
+alias gll=cool-peco-git-log
+alias ta=cool-peco-tmux-session
+alias cg=cool-peco-ghq
+
+# zの準備
+. $HOME/dotfiles/z/z.sh
+
+# pecoでgit checkout
+alias gc='git checkout $(git branch | peco)'
+
+# pecoでgit reset
+funciton peco-git-branch-d() {
+  local res
+  local branch=$(git branch | peco | tr -d ' ')
+  if [ -n "$branch" ]; then
+    res="git branch -D '${branch}'"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+
+alias gbd=peco-git-branch-d
+
+export EDITOR=subl
+
+# pecoでgit grep
+function peco-git-grep() {
+  local res
+  local file=$(git grep -n $1 | peco | awk -F: '{print $1}')
+  if [ -n "$file" ]; then
+    res="$EDITOR $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+
+alias gg=peco-git-grep
+
+# pecoでbundle exec spec
+function peco-spec(){
+  # オプションを渡せるようにした
+  # 参考
+  # https://qiita.com/b4b4r07/items/dcd6be0bb9c9185475bb
+  for OPT in "$@"
+  do
+    case $OPT in
+      '-a' )
+          EXECUTE_ALL=1
+          ;;
+    esac
+    shift
+  done
+
+  local res
+  local branch=${1:-master}
+  local spec_target_files=$(git diff --name-only origin/$branch | grep _spec)
+
+  if [ "$EXECUTE_ALL" ]; then
+    echo "=========================RSpec========================="
+    echo $spec_target_files | xargs -n 1 echo
+    export DISABLE_COVERAGE=1
+    echo $spec_target_files | xargs --no-run-if-empty bundle exec rspec --format progress
+    unset $EXECUTE_ALL
+  else
+    local file=$(git diff --name-only origin/$branch | grep _spec | peco)
+    if [ -n "$file" ]; then
+      res="DISABLE_COVERAGE=true bin/rspec $file"
+    fi
+    _cool-peco-insert-command-line $res
+  fi
+}
+alias spec=peco-spec
+
+
+# pecoでnpm run test
+function peco-run-test(){
+  # オプションを渡せるようにした
+  # 参考
+  # https://qiita.com/b4b4r07/items/dcd6be0bb9c9185475bb
+  for OPT in "$@"
+  do
+    case $OPT in
+      '-a' )
+          EXECUTE_ALL=1
+          ;;
+    esac
+    shift
+  done
+
+  local res
+  local branch=${1:-master}
+  local spec_target_files=$(git diff --name-only origin/$branch | grep spec)
+
+  if [ "$EXECUTE_ALL" ]; then
+    echo "=========================RSpec========================="
+    echo $spec_target_files | xargs -n 1 echo
+    export DISABLE_COVERAGE=1
+    echo $spec_target_files | xargs --no-run-if-empty npm run test
+    unset $EXECUTE_ALL
+  else
+    local file=$(git diff --name-only origin/$branch | grep spec | peco)
+    if [ -n "$file" ]; then
+      res="npm run test $file"
+    fi
+    _cool-peco-insert-command-line $res
+  fi
+}
+alias rtest=peco-run-test
+
+# pecoでgit diff --name-only master
+function peco-git-diff-name-only() {
+  local res
+  local file=$(git diff --name-only origin/${1:-$GIT_DIFF_BRANCH} | peco)
+  if [ -n "$file" ]; then
+	res="$EDITOR $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias gd=peco-git-diff-name-only
+
+# pecoでfind
+function peco-find-grep() {
+  local res
+  local base=$(find -type f | xargs grep -n $1 | peco)
+  local file=$(echo $base | awk -F: '{print $1}')
+  local file_index=$(echo $base | awk -F: '{print $2}')
+  if [ -n "$file" ]; then
+    res="$EDITOR $file:$file_index"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias ff=peco-find-grep
+
+# pecoでgit-diff-find
+function peco-git-diff-find() {
+  local res
+  local base=$(find $(git diff --name-only master) -type f | xargs grep -n1 $1 | peco)
+  local file=$(echo $base | awk -F: '{print $1}')
+  local file_index=$(echo $base | awk -F: '{print $2}')
+  if [ -n "$file" ]; then
+    res="$EDITOR $file:$file_index"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+
+alias ggd=peco-git-diff-find
+
+# pecoでspecファイルをsublで開く
+function peco-subl-spec(){
+  local res
+  local file=$(git diff --name-only master | grep _spec | peco)
+  if [ -n "$file" ]; then
+    res="$EDITOR $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias sspec=peco-subl-spec
+
+# pecoでcd
+function peco-cd {
+  local res
+  local file=$(git grep -n $1 | peco | awk -F: '{print $1}')
+  if [ -n "$file" ]; then
+    res="pushd $(cd $(dirname $file);pwd)"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias pcd=peco-cd
+
+alias be='bundle exec'
+
+alias current-branch='git rev-parse --abbrev-ref HEAD'
