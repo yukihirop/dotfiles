@@ -6,5 +6,5 @@ fi
 # global設定を有効にする
 [ -f $HOME/dotfiles/.zshrc.global ] && source $HOME/dotfiles/.zshrc.global
 
-# local設定を有効にする
+# local設定を有効にする(スクリプトを上がいたりする用)
 [ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local

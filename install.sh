@@ -35,6 +35,10 @@ local diff-highlight-path="/usr/local/share/git-core/contrib/diff-highlight/diff
 # gitconfig.localの設定
 [ -e ~/.gitconfig.local ] || cp ~/dotfiles/.gitconfig.local.template ~/.gitconfig.local
 
+# gitopen.shの設定
+[ -d ~/bin ] || mkdir ~/bin
+[ -e ~/scripts/gitopen.sh ] || cp ~/dotfiles/scripts/gitopen.sh ~/bin/gitopen.sh
+
 cat << END
 
 **************************************************
