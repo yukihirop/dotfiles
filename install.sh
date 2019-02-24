@@ -20,17 +20,25 @@ for f in .??*; do
     ln --symbolic --no-dereference --force --verbose ~/dotfiles/"$f" ~/
 done
 
-# .vim/以下にシンボリックリンクをはる
-ln -snfv ~/dotfiles/.vim ~/
+# 「.vim・.vimrc」以下にシンボリックリンクをはる
+ln --symbolic --no-dereference --force --verbose ~/dotfiles/.vim ~/
+ln --symbolic --no-dereference --force --verbose ~/dotfiles/.vimrc ~/
 
 # nvimにシンボリックリンクをはる
-ln -snfv ~/.vim ~/.config/nvim
-ln -snfv ~/.vimrc ~/.config/nvim/init.vim
+ln --symbolic --no-dereference --force --verbose ~/.vim ~/.config/nvim
+ln --symbolic --no-dereference --force --verbose ~/.vimrc ~/.config/nvim/init.vim
 
+# diff-highlightの設定
+local diff-highlight-path="/usr/local/share/git-core/contrib/diff-highlight/diff-highlight" 
+[ -e ${diff-highlight-path} ] && ln --symbolic --no-dereference --force --verbose ${diff-highlight-path} /usr/local/bin
+
+# gitconfig.localの設定
 [ -e ~/.gitconfig.local ] || cp ~/dotfiles/.gitconfig.local.template ~/.gitconfig.local
 
-cat << END
+# gitopen.shの設定
+[ -e ~/scripts/gitopen.sh ] && cp ~/dotfiles/scripts/gitopen.sh ~/bin/gitopen.sh
 
+cat << END
 
 **************************************************
 DOTFILES SETUP FINISHED! bye.

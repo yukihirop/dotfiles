@@ -7,7 +7,7 @@
 	email = te108186@gmail.com
 [alias]
 	co = checkout
-  open = !sh ~/bin/gitopen.sh
+  	open = !sh ~/bin/gitopen.sh
 [core]
 	editor = subl -w
 	excludesfile = ~/.gitignore
@@ -17,21 +17,16 @@
 	required = true
 [color]
 	ui = auto
-[diff]
-	tool = diffmerge
-[difftool]
-	prompt = false
-[difftool "diffmerge"]
-	path = /Applications/DiffMerge.app/Contents/Resources/diffmerge.sh
-[merge]
-    tool = diffmerge
-[mergetool "diffmerge"]
-    trustExitCode = true
-    path = /Applications/DiffMerge.app/Contents/Resources/diffmerge.sh
 [ghq]
-  root = ~/src
+  	root = ~/src
 [browse-remote "github.com"]
-    top = https://{host}/{path}
-    ref = https://{host}/{path}/pull/{short_ref}
-    rev = https://{host}/{path}/commit/{commit}
-    file = "https://{host}/{path}/blob/{short_rev}/{file}{line && \"#L%d\" % line}"
+  	top = https://{host}/{path}
+  	ref = https://{host}/{path}/pull/{short_ref}
+  	rev = https://{host}/{path}/commit/{commit}
+  	file = "https://{host}/{path}/blob/{short_rev}/{file}{line && \"#L%d\" % line}"
+[pager]
+	log = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less
+[include]
+	path = $HOME/.gitconfig.local
