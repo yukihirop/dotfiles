@@ -9,7 +9,7 @@
 	co = checkout
   	open = !sh ~/bin/gitopen.sh
 [core]
-	editor = subl -w
+	editor = code -w
 	excludesfile = ~/.gitignore
 [filter "lfs"]
 	clean = git-lfs clean %f
