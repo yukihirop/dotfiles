@@ -39,6 +39,9 @@ local diff-highlight-path="/usr/local/share/git-core/contrib/diff-highlight/diff
 [ -d ~/bin ] || mkdir ~/bin
 [ -e ~/scripts/gitopen.sh ] || cp ~/dotfiles/scripts/gitopen.sh ~/bin/gitopen.sh
 
+# cool-pecoの設定
+sh ~/dotfiles/cool-peco/install.sh
+
 cat << END
 
 **************************************************

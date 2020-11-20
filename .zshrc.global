@@ -2,5 +2,5 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 [ -f $HOME/dotfiles/.zshrc.tool ] && source $HOME/dotfiles/.zshrc.tool
-[ -f $HOME/dotfiles/.zshrc.script ] && source $HOME/dotfiles/.zshrc.script
 [ -f $HOME/dotfiles/.zshrc.oh.my.zsh ] && source $HOME/dotfiles/.zshrc.oh.my.zsh
+[ -f $HOME/dotfiles/.zshrc.script ] && source $HOME/dotfiles/.zshrc.script

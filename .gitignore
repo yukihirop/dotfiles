@@ -4,6 +4,7 @@
 *.rdb
 .ruby-version
 /vendor/bundle
+*/vendor/bundle
 docker-compose.dev.yml
 docker-compose.tmp.yml
 worktrees/
@@ -11,3 +12,14 @@ worktrees/
 .vim/dein/
 db-dump.sh
 db-restore.sh
+kill_all_component_process.sh
+Gemfile.local
+Gemfile.local.lock
+gemfile_lock2gemfile.rb
+/app/config/templates/app_settings.yml
+/app/config/templates/database.yml
+/devops
+/branch
+.bundle
+/mongodb
+/office/vendor/bundle

@@ -1,22 +1,4 @@
-#参考 http://qiita.com/yuku_t/items/78107016af9eb78d5804
-# bundle cd [gem]
-_orig_bundle=$(which bundle)
-function bundle() {
-    if [ "$1" = "cd" ]; then
-        local gem
-        if [ "$2" ]; then
-            gem=$2
-        else
-            gem=$($_orig_bundle list | awk '{ print $2 }' | peco)
-        fi
-        pushd $($_orig_bundle show $gem)
-    else
-        $_orig_bundle $*
-    fi
-}
-
-function peco-z-search
-{
+function peco-z-search(){
   which peco z > /dev/null
   if [ $? -ne 0 ]; then
     echo "Please install peco and z"
@@ -92,32 +74,73 @@ function peco-spec(){
   do
     case $OPT in
       '-a' )
-          EXECUTE_ALL=1
+          spec-all
+          break
+          ;;
+      '-t' )
+          peco-spec-each
           ;;
     esac
     shift
   done
+}
+alias spec=peco-spec
 
+#pecoでAPIドキュメント編集
+function peco-api-editor(){
+  local unit_paths_file_path=$(find . -type f -name "*.yml" | grep paths | peco)
+  if [ -n "$unit_paths_file_path" ]; then
+    res="PATHS_FILE=$unit_paths_file_path bundle exec rake routes:oas:editor"
+  fi
+  _cool-peco-insert-command-line $res
+}
+alias api-editor=peco-api-editor
+
+#pecoでAPIドキュメント閲覧
+function peco-api-ui(){
+  local unit_paths_file_path=$(find . -type f -name "*.yml" | grep paths | peco)
+  if [ -n "$unit_paths_file_path" ]; then
+    res="PATHS_FILE=$unit_paths_file_path bundle exec rake routes:oas:ui"
+  fi
+  _cool-peco-insert-command-line $res
+}
+alias api-ui=peco-api-ui
+
+#pecoでAPIドキュメント監視
+function peco-api-monitor(){
+  local unit_paths_file_path=$(find . -type f -name "*.yml" | grep paths | peco)
+  if [ -n "$unit_paths_file_path" ]; then
+    res="UNIT_PATHS_FILE_PATH=$unit_paths_file_path bundle exec rake routes:swagger:monitor"
+  fi
+  _cool-peco-insert-command-line $res
+}
+alias api-monitor=peco-api-monitor
+
+function spec-all(){
   local res
   local branch=${1:-master}
   local spec_target_files=$(git diff --name-only origin/$branch | grep _spec)
 
-  if [ "$EXECUTE_ALL" ]; then
-    echo "=========================RSpec========================="
-    echo $spec_target_files | xargs -n 1 echo
-    export DISABLE_COVERAGE=1
-    echo $spec_target_files | xargs --no-run-if-empty bundle exec rspec --format progress
-    unset $EXECUTE_ALL
-  else
-    local file=$(git diff --name-only origin/$branch | grep _spec | peco)
-    if [ -n "$file" ]; then
-      res="DISABLE_COVERAGE=true bin/rspec $file"
-    fi
-    _cool-peco-insert-command-line $res
+  echo "=========================RSpec========================="
+  echo $spec_target_files | xargs -n 1 echo
+  export DISABLE_COVERAGE=1
+  if [ -n "$spec_target_files" ]; then
+    res="bundle exec rspec $(echo $spec_target_files | tr '\n' ' ')"
   fi
+  _cool-peco-insert-command-line $res
 }
-alias spec=peco-spec
 
+function peco-spec-each(){
+  local res
+  local branch=${1:-master}
+  local spec_target_files=$(git diff --name-only origin/$branch | grep _spec)
+
+  local file=$(git diff --name-only origin/$branch | grep _spec | peco)
+  if [ -n "$file" ]; then
+    res="bundle exec rspec $file"
+  fi
+  _cool-peco-insert-command-line $res
+}
 
 # pecoでnpm run test
 function peco-run-test(){
@@ -198,7 +221,7 @@ alias ggd=peco-git-diff-find
 # pecoでspecファイルをsublで開く
 function peco-subl-spec(){
   local res
-  local file=$(git diff --name-only master | grep _spec | peco)
+  local file=$(git ls-files | grep _spec | peco)
   if [ -n "$file" ]; then
     res="$EDITOR $file"
   fi
@@ -206,6 +229,18 @@ function peco-subl-spec(){
   _cool-peco-insert-command-line $res
 }
 alias sspec=peco-subl-spec
+
+# pecoでspecファイルをrspec実行
+function peco-rspec-search(){
+  local res
+  local file=$(git ls-files | grep _spec | peco)
+  if [ -n "$file" ]; then
+    res="bundle exec rspec $file"
+  fi
+
+  _cool-peco-insert-command-line $res
+}
+alias ssspec=peco-rspec-search
 
 # pecoでcd
 function peco-cd {
@@ -222,3 +257,21 @@ alias pcd=peco-cd
 alias be='bundle exec'
 
 alias current-branch='git rev-parse --abbrev-ref HEAD'
+
+
+# 参考
+# https://qiita.com/yuku_t/items/78107016af9eb78d5804
+_orig_bundle=$(which bundle)
+function bundle() {
+    if [ "$1" = "cd" ]; then
+        local gem
+        if [ "$2" ]; then
+            gem=$2
+        else
+            gem=$($_orig_bundle list | awk '{ print $2 }' | peco)
+        fi
+        cd $($_orig_bundle show $gem)
+    else
+        $_orig_bundle $*
+    fi
+}

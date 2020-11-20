@@ -9,7 +9,7 @@ export PATH=$PATH:$GOPATH/bin
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH=${PYENV_ROOT}/bin:$PATH
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-alias python=$HOME/.pyenv/shims/python3
+# alias python=$HOME/.pyenv/shims/python3
 
 #rbenvの設定
 export PATH="$HOME/.rbenv/bin:$PATH"
@@ -18,6 +18,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 #goenvの設定
 export GOENV_ROOT="$HOME/.goenv"
 export PATH="$GOENV_ROOT/bin:$PATH"
+export GOENV_DISABLE_GOPATH=1
 if which goenv > /dev/null; then eval "$(goenv init -)"; fi
 
 #ndenvの設定

@@ -30,3 +30,7 @@
 	diff = diff-highlight | less
 [include]
 	path = $HOME/.gitconfig.local
+[url "https://19fab83b55215a12dda6a2485ab00b845f87a3d4:x-oauth-basic@github.com/"]
+	insteadOf = https://github.com/
+[submodule]
+	recurse = true
